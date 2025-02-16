@@ -1,0 +1,77 @@
+const express = require('express')
+const cors = require('cors')
+const { default: mongoose } = require('mongoose')
+const app = express()
+app.use(cors())
+app.use(express.json())
+
+const db = `mongodb+srv://vinuba218:Vinu123@cluster0.ha3bo.mongodb.net/`;
+
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+})
+const patientModel = mongoose.model("patient", userSchema)
+
+
+app.post("/api/patients",async (req, res) => {
+    try {
+        const {name, age, gender} = req.body
+
+        const patient = new patientModel({name, age, gender})
+        await patient.save()
+
+        console.log("Patient Added")
+        res.status(201).json({patientDetails: patient})
+    }
+    catch {
+        console.log("Not yet saved")
+        res.status(500).json({error: "Internal Server Error"})
+    }
+})
+
+app.delete("/api/patients/:id", async(req, res) => {
+    try {
+        const { id } = req.params
+        const patient = await patientModel.findByIdAndDelete(id)
+        console.log(patient)
+        res.status(201).json({message: "Patient details deleted."})
+    }
+    catch {
+        res.status(500).json({error: "Internal Server Error"})    }
+})
+
+app.get('/api/patients', async (req, res) => {
+    try {
+      const patients = await patientModel.find(); 
+      res.json({ patients });
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+const connected = async () => {
+    try {
+        await mongoose.connect(db)
+        console.log("DB connection Success")
+    }
+    catch {
+        console.log("DB connection Unsuccess")
+        process.exit(1)
+    }
+}
+
+app.listen(8000, async () => {
+    await connected()
+    console.log("Port connected Successfully")
+})
