@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const { default: mongoose } = require('mongoose')
@@ -5,7 +6,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const db = `mongodb+srv://vinuba218:Vinu123@cluster0.ha3bo.mongodb.net/`;
+const db = process.env.MONGO_URI;
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -71,7 +72,7 @@ const connected = async () => {
     }
 }
 
-app.listen(8000, async () => {
+app.listen(process.env.PORT, async () => {
     await connected()
-    console.log("Port connected Successfully")
+    console.log(`Server running on port ${process.env.PORT}` )
 })

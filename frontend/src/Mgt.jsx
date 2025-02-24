@@ -6,10 +6,12 @@ const Mgt = () => {
   const [age, setAge] = useState('')
   const [gender, setGender] = useState('')
   const [patientList, setPatientList] = useState([])
+  const [message, setMessage] = useState('')
 
   const add = async () => {
     if (!name || !age || !gender) {
-      alert("Enter your details.")
+      setMessage("Add your details first.")
+      setTimeout(() => setMessage(''), 3000)
       return
     }
 
@@ -25,6 +27,9 @@ const Mgt = () => {
       setName('')
       setAge('')
       setGender('')
+
+      setMessage("Patient added successfully.");
+      setTimeout(() => setMessage(''), 3000);
     }
     catch {
       console.log("Error")
@@ -37,6 +42,9 @@ const Mgt = () => {
       console.log("Delete response:", response.data);
 
       setPatientList((patientList) => patientList.filter(patient => patient._id !== id))
+
+      setMessage("Patient details removed successfully.");
+      setTimeout(() => setMessage(''), 3000);
     }
     catch {
       console.log("Deletion unsuccessful.")
@@ -62,10 +70,14 @@ const Mgt = () => {
         <p className='text-3xl pb-5 '>JKL Hospital Management App</p>
         <div className='flex justify-center gap-10 bg-blue-400 p-3 rounded-xl  cursor-pointer'>
           <p className='text-xl'>Appointments</p>
-          {/* <p className='text-xl'>Doctors</p>
-          <p className='text-xl'>Patients</p> */}
         </div>
       </div>
+      {message && (
+        <div className="fixed top-5 right-6 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+          {message}
+        </div>
+      )}
+
       <div className="flex flex-col md:flex-row items-center gap-4 w-full max-w-[800px] mx-auto">
         <div className=' p-6 border-gray-200 h-[350px]  border rounded-xl w-[400px] shadow-xl '>
           <p className=' pb-6 text-xl'>Add New Patient</p>
@@ -124,7 +136,6 @@ const Mgt = () => {
                       <p className=''>Age: {patient.age}</p>
                       <p>Gender: {patient.gender}</p>
                       <div className='flex justify-end cursor-pointer'>
-                        {/* <p>Edit</p> */}
                         <p onClick={() => remove(patient._id)} className=' rounded-md p-1 bg-blue-200'>Delete</p>
                       </div>
                     </div>
@@ -134,11 +145,7 @@ const Mgt = () => {
               )
           }
         </div>
-
-
       </div>
-
-
     </div>
   )
 }
