@@ -16,7 +16,7 @@ const Mgt = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8000/api/patients", {
+      const response = await axios.post("https://hospitalmanagement-uz3g.onrender.com", {
         name,
         age,
         gender
@@ -38,7 +38,7 @@ const Mgt = () => {
 
   const remove = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:8000/api/patients/${id}`)
+      const response = await axios.delete(`https://hospitalmanagement-uz3g.onrender.com/${id}`)
       console.log("Delete response:", response.data);
 
       setPatientList((patientList) => patientList.filter(patient => patient._id !== id))
