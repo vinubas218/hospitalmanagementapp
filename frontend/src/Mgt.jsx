@@ -39,7 +39,7 @@ const Mgt = () => {
 
   const remove = async (id) => {
     try {
-      const response = await axios.delete(`"https://hospitalmanagement-uz3g.onrender.com/api/patients"/${id}`)
+      const response = await axios.delete(`https://hospitalmanagement-uz3g.onrender.com/api/patients/${id}`)
       console.log("Delete response:", response.data);
 
       setPatientList((patientList) => patientList.filter(patient => patient._id !== id))
