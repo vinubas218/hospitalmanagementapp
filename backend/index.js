@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const { default: mongoose } = require('mongoose')
 const app = express()
-app.use(cors())
+app.use(cors({ origin: "https://hospitalmanagementapp-o4sa.onrender.com" }));
 app.use(express.json())
 
 const db = process.env.MONGO_URI;
