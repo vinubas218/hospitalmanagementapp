@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const Mgt = () => {
-  const API_URL = "https://hospitalmanagement-uz3g.onrender.com/api/patients";
 
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
@@ -18,7 +17,7 @@ const Mgt = () => {
     }
 
     try {
-      const response = await axios.post(API_URL, {
+      const response = await axios.post("https://hospitalmanagement-uz3g.onrender.com/api/patients", {
         name,
         age,
         gender
@@ -40,7 +39,7 @@ const Mgt = () => {
 
   const remove = async (id) => {
     try {
-      const response = await axios.delete(`${API_URL}/${id}`)
+      const response = await axios.delete(`"https://hospitalmanagement-uz3g.onrender.com/api/patients"/${id}`)
       console.log("Delete response:", response.data);
 
       setPatientList((patientList) => patientList.filter(patient => patient._id !== id))
@@ -56,7 +55,7 @@ const Mgt = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await axios.get("API_URL");
+        const response = await axios.get("https://hospitalmanagement-uz3g.onrender.com/api/patients");
         setPatientList(response.data.patients); 
       } catch (error) {
         console.error("Error fetching patients:", error);
